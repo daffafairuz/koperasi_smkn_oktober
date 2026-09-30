@@ -1,0 +1,125 @@
+@startuml class_diagram
+
+enum RoleUser {
+  ADMIN
+  ANGGOTA
+}
+
+enum JenisTransaksi {
+  ' Transaksi Simpanan Anggota
+  SETOR_SIMPANAN_POKOK
+  SETOR_SIMPANAN_WAJIB
+
+  ' Transaksi Piutang & Pinjaman Anggota
+  PENCAIRAN_PIUTANG_UANG
+  PENCAIRAN_PINJAMAN_BARANG
+  BAYAR_ANGSURAN_UANG
+  BAYAR_ANGSURAN_BARANG
+
+  ' Mutasi Internal Kas Koperasi
+  PEMASUKAN_OPERASIONAL
+  PENGELUARAN_OPERASIONAL
+  PEMBELIAN_STOK_BARANG
+}
+
+enum JenisMutasiKas {
+  MASUK
+  KELUAR
+}
+
+class User {
+  +String id_user <<main_key>>
+  +String username <<unique>>
+  +String password
+  +RoleUser role
+  +Boolean is_active
+  +Date created_at
+  +Date updated_at
+}
+
+class Anggota {
+  +String no_anggota <<main_key>>
+  +String id_user <<foreign_key>>
+  +String nama
+  +String no_hp
+  +String email
+  +Integer saldo_akhir
+  +Integer total_tagihan
+  +Boolean status
+  +Date created_at
+  +Date updated_at
+}
+
+class PiutangUang {
+  +String id_piutang_uang <<main_key>>
+  +String no_anggota <<foreign_key>>
+  +Integer total_piutang_awal
+  +Integer sisa_piutang_uang
+  +Integer angsuran_uang
+  +Integer tenor_uang
+  +Integer sisa_tenor_uang
+  +Date created_at
+  +Date updated_at
+}
+
+class PinjamanBarang {
+  +String id_pinjaman_barang <<main_key>>
+  +String no_anggota <<foreign_key>>
+  +Integer harga_barang_awal
+  +Integer persen_bunga
+  +Integer nominal_bunga
+  +Integer total_pinjaman_barang
+  +Integer sisa_pinjaman_barang
+  +Integer angsuran_barang
+  +Integer tenor_barang
+  +Integer sisa_tenor_barang
+  +Date created_at
+  +Date updated_at
+}
+
+class Transaksi {
+  +String no_transaksi <<main_key>>
+  +String no_anggota <<foreign_key, optional>>
+  +String id_piutang_uang <<foreign_key, optional>>
+  +String id_pinjaman_barang <<foreign_key, optional>>
+  +JenisTransaksi jenis_transaksi
+  +Integer nominal
+  +String keterangan
+  +Date created_at
+}
+
+class KasKoperasi {
+  +String id_kas <<main_key>>
+  +String no_transaksi <<foreign_key, optional>>
+  +String id_user <<foreign_key>>
+  +JenisMutasiKas jenis_mutasi
+  +Integer nominal
+  +Integer saldo_setelah_mutasi
+  +String keterangan
+  +Date created_at
+}
+
+class BusinessNeed {
+  +String id_bn <<main_key>>
+  +String periode <<unique>>
+  +Integer simpanan_pokok
+  +Integer simpanan_wajib
+  +Integer persen_bunga_barang
+  +Boolean status_aktif
+  +Date created_at
+}
+
+' Relasi dan Kardinalitas
+User "1" -- "0..1" Anggota : dipunyai_oleh >
+User "1" -- "0..*" KasKoperasi : dicatat_oleh >
+
+Anggota "1" -- "0..*" PiutangUang : memiliki >
+Anggota "1" -- "0..*" PinjamanBarang : memiliki >
+Anggota "1" -- "0..*" Transaksi : melakukan >
+
+PiutangUang "0..1" -- "0..*" Transaksi : dicatat_dalam >
+PinjamanBarang "0..1" -- "0..*" Transaksi : dicatat_dalam >
+
+Transaksi "0..1" -- "0..1" KasKoperasi : mempengaruhi >
+
+@enduml
