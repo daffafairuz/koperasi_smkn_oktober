@@ -19,7 +19,6 @@ class Anggota extends Model
         'id_user',
         'nama',
         'no_hp',
-        'email',
         'saldo_akhir',
         'total_tagihan',
         'status',

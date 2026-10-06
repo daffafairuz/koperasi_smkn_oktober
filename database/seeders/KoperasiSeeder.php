@@ -35,6 +35,7 @@ class KoperasiSeeder extends Seeder
         $adminUser = User::create([
             'id_user' => 'USR-001',
             'username' => 'admin_koperasi',
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('password123'),
             'role' => 'ADMIN',
             'is_active' => true,
@@ -44,6 +45,7 @@ class KoperasiSeeder extends Seeder
         $userAnggota1 = User::create([
             'id_user' => 'USR-002',
             'username' => 'budi_santoso',
+            'email' => 'budi@gmail.com',
             'password' => Hash::make('password123'),
             'role' => 'ANGGOTA',
             'is_active' => true,
@@ -53,6 +55,7 @@ class KoperasiSeeder extends Seeder
         $userAnggota2 = User::create([
             'id_user' => 'USR-003',
             'username' => 'siti_aminah',
+            'email' => 'siti@gmail.com',
             'password' => Hash::make('password123'),
             'role' => 'ANGGOTA',
             'is_active' => true,
@@ -64,7 +67,6 @@ class KoperasiSeeder extends Seeder
             'id_user' => $userAnggota1->id_user,
             'nama' => 'Budi Santoso',
             'no_hp' => '081234567890',
-            'email' => 'budi@gmail.com',
             'saldo_akhir' => 600000, // Total simpanan pokok + wajib
             'total_tagihan' => 4500000, // Total sisa piutang + sisa pinjaman barang
             'status' => true,
@@ -75,7 +77,6 @@ class KoperasiSeeder extends Seeder
             'id_user' => $userAnggota2->id_user,
             'nama' => 'Siti Aminah',
             'no_hp' => '089876543210',
-            'email' => 'siti@gmail.com',
             'saldo_akhir' => 550000,
             'total_tagihan' => 0,
             'status' => true,

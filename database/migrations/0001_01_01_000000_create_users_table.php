@@ -12,6 +12,7 @@ return new class extends Migration
             $table->string('id_user')->primary();
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('email');
             $table->enum('role', ['ADMIN', 'ANGGOTA']);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

@@ -17,7 +17,6 @@ return new class extends Migration
 
             $table->string('nama');
             $table->string('no_hp');
-            $table->string('email');
             $table->bigInteger('saldo_akhir')->default(0);
             $table->bigInteger('total_tagihan')->default(0);
             $table->boolean('status')->default(true);
